@@ -1,15 +1,23 @@
-﻿<Window x:Class="WpfApp3.MainWindow"
+﻿<Window x:Class="TravellingSalesmanAlgorithms.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp3"
+        xmlns:local="clr-namespace:TravellingSalesmanAlgorithms"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="Algoritm" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="56,4,0,0" VerticalAlignment="Top" Width="120"/>
-        <DataGrid x:Name="DataGridKord" HorizontalAlignment="Left" Margin="10,39,0,9.667" Width="165" >
+        Title="MainWindow" Height="458" Width="876">
+    <Grid Loaded="Grid_Loaded">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="352*"/>
+            <ColumnDefinition Width="449*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Algoritm:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,1,0,0"/>
+        <ComboBox x:Name="algorithm" HorizontalAlignment="Left" Margin="56,7,0,0" VerticalAlignment="Top" Width="120" Height="19">
+            <ComboBoxItem Content="O((n-1)!)"/>
+            <ComboBoxItem Content="O(n² * 2ⁿ)"/>
+            <ComboBoxItem Content="O(n)"/>
+        </ComboBox>
+        <DataGrid x:Name="DataGridKord" HorizontalAlignment="Left" Margin="0,57,0,-0.333" Width="176" SelectionChanged="DataGridKord_SelectionChanged" >
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#CCCCCC"/>
@@ -19,11 +27,30 @@
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                 </Style>
             </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="X" Width="*" />
-                <DataGridTextColumn Header="Y" Width="*"/>
-                <DataGridTextColumn Header="Grupp" Width="*"/>
-            </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="Randomize" Content="Slumpa" HorizontalAlignment="Left" Margin="132,31,0,0" VerticalAlignment="Top" Width="44" Click="Randomize_Click"/>
+        <Label Content="Antal Noder:" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="AntalNoder" HorizontalAlignment="Left" Height="19" Margin="75,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="52"/>
+        <Button x:Name="Place" Content="Placera ut noder" HorizontalAlignment="Left" Margin="270,4,0,0" VerticalAlignment="Top" Width="60" Height="19" Click="Place_Click"/>
+        <Button x:Name="Draw" Content="Rita Graf" HorizontalAlignment="Left" Margin="335,4,0,0" VerticalAlignment="Top" Width="60" Height="19" RenderTransformOrigin="0.509,-0.027" Click="Draw_Click" Grid.ColumnSpan="2"/>
+        <Label Content="Kortaste väg längd:" HorizontalAlignment="Left" Margin="18,1,0,0" VerticalAlignment="Top" Height="26" Width="111" Grid.Column="1"/>
+        <TextBox x:Name="KortasteVäg" HorizontalAlignment="Left" Height="19" Margin="135,4,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.499,0.279" Grid.Column="1"/>
+        <Label Content="Loopar(ACO)" HorizontalAlignment="Left" Margin="195,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.551,0.154" Grid.Column="1"/>
+        <TextBox x:Name="AntalLoopar" HorizontalAlignment="Left" Height="19" Margin="273,4,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" Grid.Column="1"/>
+        <Rectangle HorizontalAlignment="Left" Height="398" Margin="176,23,0,0" Stroke="Black" VerticalAlignment="Top" Width="617" RenderTransformOrigin="0.475,0.48" Grid.ColumnSpan="2">
+
+        </Rectangle>
+        <CheckBox x:Name="SlutIAnd" Content="Skapa krets" HorizontalAlignment="Left" Margin="185,7,0,0" VerticalAlignment="Top"/>
+        <Canvas x:Name="canvas" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="398" Margin="176,23,0,0" VerticalAlignment="Top" Width="617"/>
+        <Label x:Name="myrlbl" Content="Myror(ACO)" HorizontalAlignment="Left" Margin="338,1,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.551,0.154" Grid.Column="1"/>
+        <TextBox x:Name="AntalMyror" HorizontalAlignment="Left" Height="19" Margin="416,4,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.056,0.566" Grid.Column="1"/>
+        <Label x:Name="myrlbl_Copy" Content="Rho(ACO)" HorizontalAlignment="Left" Margin="411,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.551,0.154" Grid.Column="1"/>
+        <TextBox x:Name="RhoVärde" HorizontalAlignment="Left" Height="19" Margin="416,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.056,0.566" Grid.Column="1"/>
+        <Label x:Name="myrlbl_Copy1" Content="Alpha(ACO)" HorizontalAlignment="Left" Margin="411,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.551,0.154" Grid.Column="1"/>
+        <TextBox x:Name="AlphaVärde" HorizontalAlignment="Left" Height="19" Margin="416,100,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.056,0.566" Grid.Column="1"/>
+        <Label x:Name="myrlbl_Copy2" Content="Beta(ACO)" HorizontalAlignment="Left" Margin="411,124,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.551,0.154" Grid.Column="1"/>
+        <TextBox x:Name="BetaVärde" HorizontalAlignment="Left" Height="19" Margin="416,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.056,0.566" Grid.Column="1"/>
+        <Label x:Name="myrlbl_Copy3" Content="Tid (ms)" HorizontalAlignment="Left" Margin="413,174,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.551,0.154" Grid.Column="1"/>
+        <TextBox x:Name="TidsVärde" HorizontalAlignment="Left" Height="19" Margin="416,200,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="60" RenderTransformOrigin="0.056,0.566" Grid.Column="1"/>
     </Grid>
 </Window>
